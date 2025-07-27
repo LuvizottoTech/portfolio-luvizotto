@@ -1,0 +1,47 @@
+{
+  "name": "portfolio-luvizotto",
+  "version": "1.0.0",
+  "description": "Portfólio de desenvolvimento - Felipe Luvizotto",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext js,jsx,ts,tsx --report-unused-disable-directives --max-warnings 0"
+  },
+  "keywords": [
+    "portfolio",
+    "developer",
+    "frontend",
+    "backend",
+    "java",
+    "javascript"
+  ],
+  "author": "Felipe Luvizotto",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^8.55.0",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.3.6",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.8"
+  },
+  "dependencies": {
+    "@react-three/drei": "^9.88.13",
+    "@react-three/fiber": "^8.15.11",
+    "@types/three": "^0.178.1",
+    "animejs": "^3.2.2",
+    "framer-motion": "^10.16.16",
+    "gsap": "^3.12.2",
+    "lottie-react": "^2.4.0",
+    "lucide-react": "^0.295.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-intersection-observer": "^9.5.3",
+    "react-router-dom": "^6.20.1",
+    "three": "^0.158.0"
+  }
+}
