@@ -14,7 +14,6 @@ const Projects = () => {
 
   useEffect(() => {
     if (inView) {
-      // Animação do título
       anime({
         targets: '.projects-title',
         opacity: [0, 1],
@@ -23,7 +22,6 @@ const Projects = () => {
         easing: 'easeOutExpo'
       })
 
-      // Animação do container principal
       anime({
         targets: '.slider-container',
         opacity: [0, 1],
@@ -42,14 +40,13 @@ const Projects = () => {
       if (items.length > 0) {
         slideRef.current.appendChild(items[0])
         
-        // Reinicia as animações do conteúdo
         setTimeout(() => {
           const newFirstItem = slideRef.current.querySelector('.project-item:nth-child(1)')
           if (newFirstItem) {
             const animatedElements = newFirstItem.querySelectorAll('.animate-fade-in, .animate-fade-in-delay, .animate-fade-in-delay-2, .animate-fade-in-delay-3')
             animatedElements.forEach(el => {
               el.style.animation = 'none'
-              el.offsetHeight // Trigger reflow
+              el.offsetHeight
               el.style.animation = null
             })
           }
@@ -65,14 +62,13 @@ const Projects = () => {
       if (items.length > 0) {
         slideRef.current.prepend(items[items.length - 1])
         
-        // Reinicia as animações do conteúdo
         setTimeout(() => {
           const newFirstItem = slideRef.current.querySelector('.project-item:nth-child(1)')
           if (newFirstItem) {
             const animatedElements = newFirstItem.querySelectorAll('.animate-fade-in, .animate-fade-in-delay, .animate-fade-in-delay-2, .animate-fade-in-delay-3')
             animatedElements.forEach(el => {
               el.style.animation = 'none'
-              el.offsetHeight // Trigger reflow
+              el.offsetHeight
               el.style.animation = null
             })
           }
@@ -81,7 +77,6 @@ const Projects = () => {
     }
   }
 
-  // Função para abrir demo
   const handleDemoClick = (demoUrl) => {
     console.log('Demo button clicked:', demoUrl)
     if (demoUrl) {
@@ -89,7 +84,6 @@ const Projects = () => {
     }
   }
 
-  // Função para abrir código no GitHub
   const handleCodeClick = (githubUrl) => {
     console.log('Code button clicked:', githubUrl)
     if (githubUrl) {
@@ -176,7 +170,6 @@ const Projects = () => {
     <section id="projects" className="section-padding bg-gray-300 min-h-screen overflow-hidden" ref={ref}>
       <div className="container-custom">
         
-        {/* Header */}
         <div className="text-center mb-8">
           <h2 className="projects-title opacity-0 text-5xl md:text-6xl font-bold text-gray-800 mb-6">
             PROJETOS
@@ -187,11 +180,9 @@ const Projects = () => {
           <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-6"></div>
         </div>
 
-        {/* Main Slider Container */}
         <div className="slider-container opacity-0 relative max-w-7xl mx-auto">
           <div className="projects-slider-wrapper bg-gray-100 shadow-2xl relative">
             
-            {/* Slider Track */}
             <div ref={slideRef} className="slider-track">
               {projects.map((project, index) => (
                 <div
@@ -203,7 +194,6 @@ const Projects = () => {
                     backgroundPosition: 'center'
                   }}
                 >
-                  {/* Content overlay para o primeiro item visível (nth-child(1) no CSS) */}
                   <div className="project-content-overlay absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/30 opacity-0 transition-opacity duration-500">
                     <div className="absolute inset-0 flex items-center">
                       <div className="text-left text-white p-4 sm:p-6 md:p-8 lg:p-12 max-w-full sm:max-w-2xl lg:max-w-3xl w-full">
@@ -225,7 +215,6 @@ const Projects = () => {
                           {project.description}
                         </p>
 
-                        {/* Technologies */}
                         <div className="flex flex-wrap gap-1 sm:gap-2 mb-4 sm:mb-6">
                           {project.technologies.slice(0, 4).map((tech, i) => (
                             <span 
@@ -239,7 +228,6 @@ const Projects = () => {
                       </div>
                     </div>
 
-                    {/* Actions - Fora da div de texto */}
                     <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-4 sm:left-6 md:left-8 lg:left-12 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 animate-fade-in-delay-3 z-20">
                       {project.demoUrl && (
                         <button
@@ -262,7 +250,6 @@ const Projects = () => {
                     </div>
                   </div>
 
-                  {/* Title overlay for side cards (cards 3, 4, 5...) */}
                   <div className="project-side-overlay absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent rounded-2xl opacity-0 transition-opacity duration-500">
                     <div className="absolute bottom-3 left-3 right-3 text-white">
                       <h4 className="font-bold text-sm mb-1">{project.title}</h4>
@@ -273,7 +260,6 @@ const Projects = () => {
               ))}
             </div>
 
-            {/* Navigation Buttons */}
             <div className="navigation-buttons">
               <button
                 onClick={prevSlide}
@@ -292,7 +278,6 @@ const Projects = () => {
           </div>
         </div>
 
-        {/* Call to Action */}
         <div className="text-center mt-16">
           <p className="text-gray-600 mb-6 text-lg">
             Interessado em colaborar ou conhecer mais projetos?

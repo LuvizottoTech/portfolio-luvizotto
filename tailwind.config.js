@@ -1,4 +1,3 @@
-/** @type {import('tailwindcss').Config} */
 export default {
   content: [
     "./index.html",
@@ -13,7 +12,7 @@ export default {
           200: '#e2e8f0',
           300: '#cbd5e1',
           400: '#94a3b8',
-          500: '#64748b', // Cinza principal inspirado no anime.js
+          500: '#64748b',
           600: '#475569',
           700: '#334155',
           800: '#1e293b',
@@ -25,7 +24,7 @@ export default {
           200: '#e4e4e7', 
           300: '#d4d4d8',
           400: '#a1a1aa',
-          500: '#71717a', // Cinza secundário mais claro
+          500: '#71717a',
           600: '#52525b',
           700: '#3f3f46', 
           800: '#27272a',
@@ -37,7 +36,7 @@ export default {
           200: '#e5e5e5',
           300: '#d4d4d4', 
           400: '#a3a3a3',
-          500: '#737373', // Cinza neutro para destaques
+          500: '#737373',
           600: '#525252',
           700: '#404040',
           800: '#262626',
@@ -52,8 +51,8 @@ export default {
           500: '#71717a',
           600: '#52525b',
           700: '#3f3f46',
-          800: '#27272a', // Background principal escuro
-          900: '#18181b', // Background mais escuro
+          800: '#27272a',
+          900: '#18181b',
         }
       },
       fontFamily: {

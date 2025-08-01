@@ -10,7 +10,6 @@ const ThreeBackground = ({ onMouseMove, onTransition }) => {
   const animationRef = useRef(null);
 
   useEffect(() => {
-    // Scene setup
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -19,29 +18,25 @@ const ThreeBackground = ({ onMouseMove, onTransition }) => {
     renderer.setClearColor(0x2f2c29, 1);
     mountRef.current.appendChild(renderer.domElement);
 
-    // Particles geometry
     const particlesGeometry = new THREE.BufferGeometry();
     const particlesCount = 1000;
     const posArray = new Float32Array(particlesCount * 3);
     const colorArray = new Float32Array(particlesCount * 3);
 
     for (let i = 0; i < particlesCount * 3; i += 3) {
-      // Position
       posArray[i] = (Math.random() - 0.5) * 10;
       posArray[i + 1] = (Math.random() - 0.5) * 10;
       posArray[i + 2] = (Math.random() - 0.5) * 10;
 
-      // Colors - inspirado no anime.js (tons de cinza com toques brancos)
       const intensity = Math.random();
-      colorArray[i] = 0.8 + intensity * 0.2;     // R
-      colorArray[i + 1] = 0.8 + intensity * 0.2; // G
-      colorArray[i + 2] = 0.8 + intensity * 0.2; // B
+      colorArray[i] = 0.8 + intensity * 0.2;
+      colorArray[i + 1] = 0.8 + intensity * 0.2;
+      colorArray[i + 2] = 0.8 + intensity * 0.2;
     }
 
     particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
     particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
 
-    // Particles material
     const particlesMaterial = new THREE.PointsMaterial({
       size: 0.02,
       vertexColors: true,
@@ -50,11 +45,9 @@ const ThreeBackground = ({ onMouseMove, onTransition }) => {
       sizeAttenuation: true
     });
 
-    // Particles mesh
     const particles = new THREE.Points(particlesGeometry, particlesMaterial);
     scene.add(particles);
 
-    // Geometric shapes (inspirado no anime.js)
     const geometries = [
       new THREE.TetrahedronGeometry(0.1),
       new THREE.OctahedronGeometry(0.1),
@@ -86,12 +79,10 @@ const ThreeBackground = ({ onMouseMove, onTransition }) => {
 
     camera.position.z = 3;
 
-    // Store references
     sceneRef.current = scene;
     rendererRef.current = renderer;
     particlesRef.current = particles;
 
-    // Mouse move handler
     const handleMouseMove = (event) => {
       mouseRef.current.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouseRef.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -101,37 +92,26 @@ const ThreeBackground = ({ onMouseMove, onTransition }) => {
       }
     };
 
-    // Mouse wheel handler for transition - removido para permitir scroll natural
     const handleWheel = (event) => {
-      // Comportamento de scroll removido para não interferir na navegação normal
-      // if (event.deltaY > 0 && onTransition) {
-      //   onTransition('next');
-      // }
     };
 
-    // Animation loop
     const animate = () => {
       animationRef.current = requestAnimationFrame(animate);
 
-      // Rotate particles based on mouse
       if (particles) {
         particles.rotation.x += 0.001;
         particles.rotation.y += 0.001;
         
-        // Mouse interaction
         particles.rotation.x += mouseRef.current.y * 0.0005;
         particles.rotation.y += mouseRef.current.x * 0.0005;
       }
 
-      // Animate shapes
       shapes.forEach((shape, index) => {
         shape.rotation.x += 0.005 + index * 0.001;
         shape.rotation.y += 0.005 + index * 0.001;
         
-        // Float animation
         shape.position.y += Math.sin(Date.now() * 0.001 + index) * 0.0005;
         
-        // Mouse interaction
         const distance = Math.sqrt(
           Math.pow(shape.position.x - mouseRef.current.x * 3, 2) +
           Math.pow(shape.position.y - mouseRef.current.y * 3, 2)
@@ -147,11 +127,9 @@ const ThreeBackground = ({ onMouseMove, onTransition }) => {
       renderer.render(scene, camera);
     };
 
-    // Event listeners
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('wheel', handleWheel);
 
-    // Handle resize
     const handleResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
@@ -159,10 +137,8 @@ const ThreeBackground = ({ onMouseMove, onTransition }) => {
     };
     window.addEventListener('resize', handleResize);
 
-    // Start animation
     animate();
 
-    // Cleanup
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('wheel', handleWheel);
@@ -176,7 +152,6 @@ const ThreeBackground = ({ onMouseMove, onTransition }) => {
         mountRef.current.removeChild(renderer.domElement);
       }
       
-      // Dispose of Three.js objects
       scene.clear();
       renderer.dispose();
       particlesGeometry.dispose();
