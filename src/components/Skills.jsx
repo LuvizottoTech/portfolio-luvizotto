@@ -59,53 +59,65 @@ const Skills = () => {
     frontend: {
       title: "Frontend & UI/UX",
       skills: [
-        { name: "React 18", level: 95, color: "from-blue-500 to-cyan-500" },
+        { name: "React", level: 95, color: "from-blue-500 to-cyan-500" },
         { name: "Next.js 14", level: 90, color: "from-gray-700 to-gray-900" },
-        { name: "TypeScript", level: 88, color: "from-blue-600 to-blue-800" },
+        { name: "TypeScript", level: 100, color: "from-blue-600 to-blue-800" },
         { name: "Tailwind CSS", level: 92, color: "from-teal-400 to-teal-600" },
         { name: "Framer Motion", level: 85, color: "from-purple-500 to-pink-500" },
         { name: "Three.js", level: 75, color: "from-yellow-400 to-orange-500" },
-        { name: "Vue.js 3", level: 80, color: "from-green-400 to-green-600" },
+        { name: "Vue.js 3", level: 50, color: "from-green-400 to-green-600" },
         { name: "Vite", level: 88, color: "from-purple-600 to-blue-600" }
       ]
     },
     backend: {
       title: "Backend & Arquitetura",
       skills: [
-        { name: "Java 21", level: 95, color: "from-red-500 to-orange-500" },
-        { name: "Spring Boot 3", level: 93, color: "from-green-500 to-green-700" },
-        { name: "Microservices", level: 90, color: "from-blue-500 to-blue-700" },
-        { name: "Hexagonal Architecture", level: 88, color: "from-purple-500 to-purple-700" },
+        { name: "Java 21+", level: 100, color: "from-red-500 to-orange-500" },
+        { name: "Spring Boot", level: 100, color: "from-green-500 to-green-700" },
+        { name: "Microservices", level: 100, color: "from-blue-500 to-blue-700" },
+        { name: "Quarkus", level: 80, color: "from-purple-500 to-purple-700" },
         { name: "Event Driven", level: 85, color: "from-yellow-500 to-orange-500" },
-        { name: "Node.js", level: 82, color: "from-green-400 to-green-600" },
-        { name: "GraphQL", level: 78, color: "from-pink-500 to-purple-500" },
+        { name: "Node.js", level: 80, color: "from-green-400 to-green-600" },
+        { name: "GraphQL", level: 70, color: "from-pink-500 to-purple-500" },
         { name: "Apache Kafka", level: 80, color: "from-gray-600 to-gray-800" }
       ]
     },
     database: {
       title: "Database & Cache",
       skills: [
-        { name: "PostgreSQL", level: 90, color: "from-blue-600 to-blue-800" },
-        { name: "MongoDB", level: 85, color: "from-green-500 to-green-700" },
-        { name: "Redis", level: 88, color: "from-red-500 to-red-700" },
-        { name: "Elasticsearch", level: 75, color: "from-yellow-500 to-yellow-700" },
-        { name: "MySQL", level: 87, color: "from-blue-400 to-blue-600" },
-        { name: "Oracle", level: 80, color: "from-red-600 to-red-800" },
+        { name: "PostgreSQL", level: 100, color: "from-blue-600 to-blue-800" },
+        { name: "MongoDB", level: 80, color: "from-green-500 to-green-700" },
+        { name: "Redis", level: 80, color: "from-red-500 to-red-700" },
+        { name: "Elasticsearch", level: 100, color: "from-yellow-500 to-yellow-700" },
+        { name: "MySQL", level: 100, color: "from-blue-400 to-blue-600" },
+        { name: "Oracle", level: 100, color: "from-red-600 to-red-800" },
         { name: "Neo4j", level: 70, color: "from-green-400 to-green-600" },
-        { name: "InfluxDB", level: 72, color: "from-purple-500 to-purple-700" }
+        { name: "InfluxDB", level: 60, color: "from-purple-500 to-purple-700" }
       ]
     },
     devops: {
       title: "DevOps & Cloud",
       skills: [
-        { name: "Docker", level: 92, color: "from-blue-500 to-blue-700" },
-        { name: "Kubernetes", level: 85, color: "from-blue-600 to-purple-600" },
-        { name: "AWS", level: 88, color: "from-orange-400 to-orange-600" },
-        { name: "Terraform", level: 80, color: "from-purple-500 to-purple-700" },
-        { name: "GitLab CI/CD", level: 87, color: "from-orange-500 to-red-500" },
-        { name: "Jenkins", level: 83, color: "from-blue-400 to-blue-600" },
-        { name: "Prometheus", level: 78, color: "from-orange-500 to-red-500" },
-        { name: "Grafana", level: 82, color: "from-orange-400 to-orange-600" }
+        { name: "Docker", level: 100, color: "from-blue-500 to-blue-700" },
+        { name: "Kubernetes", level: 100, color: "from-blue-600 to-purple-600" },
+        { name: "AWS", level: 90, color: "from-orange-400 to-orange-600" },
+        { name: "Terraform", level: 100, color: "from-purple-500 to-purple-700" },
+        { name: "GitLab CI/CD", level: 90, color: "from-orange-500 to-red-500" },
+        { name: "Jenkins", level: 100, color: "from-blue-400 to-blue-600" },
+        { name: "Grafana", level: 100, color: "from-orange-400 to-orange-600" }
+      ]
+    },
+    mobile: {
+      title: "Mobile Development",
+      skills: [
+        { name: "React Native", level: 90, color: "from-blue-400 to-cyan-400" },
+        { name: "Swift", level: 70, color: "from-orange-500 to-red-500" },
+        { name: "SwiftUI", level: 70, color: "from-blue-500 to-purple-500" },
+        { name: "Kotlin", level: 100, color: "from-purple-600 to-pink-600" },
+        { name: "Flutter", level: 100, color: "from-blue-400 to-teal-400" },
+        { name: "Expo", level: 90, color: "from-indigo-500 to-purple-500" },
+        { name: "iOS Development", level: 70, color: "from-gray-600 to-gray-800" },
+        { name: "Android Development", level: 80, color: "from-green-500 to-green-700" }
       ]
     }
   }
@@ -193,21 +205,7 @@ const Skills = () => {
           ))}
         </div>
 
-        {/* Estatísticas extras */}
-        <div className="grid md:grid-cols-3 gap-8 mt-16 text-center">
-          <div className="skill-item opacity-0 glass rounded-xl p-6">
-            <div className="text-3xl font-bold gradient-text mb-2">20+</div>
-            <div className="text-gray-400">Tecnologias Dominadas</div>
-          </div>
-          <div className="skill-item opacity-0 glass rounded-xl p-6">
-            <div className="text-3xl font-bold gradient-text mb-2">5+</div>
-            <div className="text-gray-400">Anos de Experiência</div>
-          </div>
-          <div className="skill-item opacity-0 glass rounded-xl p-6">
-            <div className="text-3xl font-bold gradient-text mb-2">100%</div>
-            <div className="text-gray-400">Comprometimento</div>
-          </div>
-        </div>
+       
       </div>
     </section>
   )

@@ -101,11 +101,12 @@ const ThreeBackground = ({ onMouseMove, onTransition }) => {
       }
     };
 
-    // Mouse wheel handler for transition
+    // Mouse wheel handler for transition - removido para permitir scroll natural
     const handleWheel = (event) => {
-      if (event.deltaY > 0 && onTransition) {
-        onTransition('next');
-      }
+      // Comportamento de scroll removido para não interferir na navegação normal
+      // if (event.deltaY > 0 && onTransition) {
+      //   onTransition('next');
+      // }
     };
 
     // Animation loop
