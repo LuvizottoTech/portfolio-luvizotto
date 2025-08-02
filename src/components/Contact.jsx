@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter, MessageCircle } from 'lucide-react'
+import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter, MessageCircle, Check, X, Sparkles } from 'lucide-react'
 import anime from 'animejs'
+import emailjs from '@emailjs/browser'
+import { emailjsConfig, getEmailTemplate } from '../config/emailjs'
 
 const Contact = () => {
   const { ref, inView } = useInView({
@@ -18,36 +20,67 @@ const Contact = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState('')
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false)
+  const [isHovering, setIsHovering] = useState(null)
 
   useEffect(() => {
     if (inView) {
-      // Animação do título
+      // Animação épica do título com efeito de digitação
       anime({
         targets: '.contact-title',
         opacity: [0, 1],
         translateY: [50, 0],
-        duration: 800,
-        easing: 'easeOutExpo'
+        scale: [0.8, 1],
+        duration: 1000,
+        easing: 'easeOutBack'
       })
 
-      // Animação dos cards de contato
+      // Partículas flutuantes ao fundo
+      anime({
+        targets: '.floating-particle',
+        translateY: [0, -20],
+        opacity: [0.3, 0.8, 0.3],
+        scale: [0.8, 1.2, 0.8],
+        duration: 3000,
+        delay: anime.stagger(200),
+        loop: true,
+        direction: 'alternate',
+        easing: 'easeInOutSine'
+      })
+
+      // Animação dos cards com efeito holográfico
       anime({
         targets: '.contact-card',
         opacity: [0, 1],
-        translateY: [30, 0],
-        delay: anime.stagger(150, {start: 400}),
-        duration: 600,
-        easing: 'easeOutExpo'
+        translateY: [50, 0],
+        rotateX: [30, 0],
+        delay: anime.stagger(200, {start: 400}),
+        duration: 800,
+        easing: 'easeOutBack'
       })
 
-      // Animação do formulário
+      // Animação do formulário com onda
       anime({
         targets: '.form-group',
         opacity: [0, 1],
-        translateX: [30, 0],
-        delay: anime.stagger(100, {start: 800}),
-        duration: 600,
-        easing: 'easeOutExpo'
+        translateX: [-50, 0],
+        delay: anime.stagger(150, {start: 800}),
+        duration: 700,
+        easing: 'easeOutElastic(1, .6)'
+      })
+
+      // Efeito de brilho no botão de envio
+      anime({
+        targets: '.send-button',
+        boxShadow: [
+          '0 0 0 rgba(183, 171, 152, 0)',
+          '0 0 30px rgba(183, 171, 152, 0.6)',
+          '0 0 0 rgba(183, 171, 152, 0)'
+        ],
+        duration: 2000,
+        delay: 1500,
+        loop: true,
+        easing: 'easeInOutSine'
       })
     }
   }, [inView])
@@ -63,23 +96,75 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setSubmitStatus('')
     
-    // Simulação de envio (substitua pela sua lógica real)
+    // Animação do botão durante envio
+    anime({
+      targets: '.send-button',
+      scale: [1, 0.95, 1],
+      duration: 200,
+      easing: 'easeInOutQuad'
+    })
+    
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      setSubmitStatus('success')
-      setFormData({ name: '', email: '', subject: '', message: '' })
+      // Validação básica
+      if (!formData.name || !formData.email || !formData.message) {
+        throw new Error('Por favor, preencha todos os campos obrigatórios')
+      }
+
+      // Validação de email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!emailRegex.test(formData.email)) {
+        throw new Error('Por favor, insira um email válido')
+      }
+
+      // Usar configuração do arquivo emailjs.js
+      const templateParams = getEmailTemplate(formData)
+
+      // Envio real do email usando EmailJS
+      const result = await emailjs.send(
+        emailjsConfig.serviceID, 
+        emailjsConfig.templateID, 
+        templateParams, 
+        emailjsConfig.publicKey
+      )
       
-      // Animação de sucesso
-      anime({
-        targets: '.success-message',
-        opacity: [0, 1],
-        scale: [0.8, 1],
-        duration: 500,
-        easing: 'easeOutBack'
-      })
+      if (result.status === 200) {
+        setSubmitStatus('success')
+        setFormData({ name: '', email: '', subject: '', message: '' })
+        
+        // Mostrar popup de sucesso com animação épica
+        setShowSuccessPopup(true)
+        
+        // Animação de confete
+        anime({
+          targets: '.success-particle',
+          translateY: [0, -100],
+          translateX: () => anime.random(-50, 50),
+          opacity: [1, 0],
+          scale: [0, 1, 0],
+          duration: 1500,
+          delay: anime.stagger(50),
+          easing: 'easeOutQuart'
+        })
+
+        // Fechar popup após 4 segundos
+        setTimeout(() => {
+          setShowSuccessPopup(false)
+        }, 4000)
+        
+      } else {
+        throw new Error('Falha no envio do email')
+      }
     } catch (error) {
       setSubmitStatus('error')
+      console.error('Erro ao enviar mensagem:', error)
+      
+      // Fallback para mailto se EmailJS falhar
+      const mailtoLink = `mailto:felipeluvizotto08@gmail.com?subject=${encodeURIComponent(formData.subject || 'Contato do Portfolio')}&body=${encodeURIComponent(
+        `Nome: ${formData.name}\nEmail: ${formData.email}\n\nMensagem:\n${formData.message}`
+      )}`
+      window.open(mailtoLink, '_blank')
     } finally {
       setIsSubmitting(false)
       setTimeout(() => setSubmitStatus(''), 5000)
@@ -90,29 +175,22 @@ const Contact = () => {
     {
       icon: Mail,
       title: "Email",
-      value: "contato@felipeluvizotto.dev",
-      href: "mailto:contato@felipeluvizotto.dev",
+      value: "felipeluvizotto08@gmail.com",
+      href: "mailto:felipeluvizotto08@gmail.com",
       description: "Resposta em até 24h"
-    },
-    {
-      icon: Phone,
-      title: "Telefone",
-      value: "+55 (11) 99999-9999",
-      href: "tel:+5511999999999",
-      description: "WhatsApp disponível"
     },
     {
       icon: MapPin,
       title: "Localização",
-      value: "São Paulo, SP",
-      href: "https://maps.google.com/?q=São+Paulo+SP",
+      value: "Curitiba, PR",
+      href: "https://maps.google.com/?q=Curitiba+PR",
       description: "Disponível para remote"
     },
     {
       icon: MessageCircle,
       title: "LinkedIn",
       value: "linkedin.com/in/felipeluvizotto",
-      href: "https://linkedin.com/in/felipeluvizotto",
+      href: "https://www.linkedin.com/in/felipe-luvizotto-4a611b114/",
       description: "Vamos nos conectar!"
     }
   ]
@@ -121,19 +199,13 @@ const Contact = () => {
     {
       icon: Github,
       name: "GitHub",
-      href: "https://github.com/felipeluvizotto",
+      href: "https://github.com/LuvizottoTech",
       color: "hover:text-gray-400"
     },
     {
       icon: Linkedin,
       name: "LinkedIn",
-      href: "https://linkedin.com/in/felipeluvizotto",
-      color: "hover:text-blue-400"
-    },
-    {
-      icon: Twitter,
-      name: "Twitter",
-      href: "https://twitter.com/felipeluvizotto",
+      href: "https://www.linkedin.com/in/felipe-luvizotto-4a611b114/",
       color: "hover:text-blue-400"
     }
   ]
@@ -141,6 +213,74 @@ const Contact = () => {
   return (
     <section id="contact" className="section-padding bg-gradient-to-b from-dark-900 to-dark-800" ref={ref}>
       <div className="container-custom">
+        
+        {/* Popup de Sucesso Épico */}
+        {showSuccessPopup && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+            <div className="relative bg-gradient-to-br from-dark-800 to-dark-900 p-8 rounded-2xl border border-primary-500/30 shadow-2xl max-w-md mx-4">
+              {/* Partículas de confete */}
+              {[...Array(12)].map((_, i) => (
+                <div
+                  key={i}
+                  className="success-particle absolute w-2 h-2 bg-gradient-to-r from-primary-400 to-accent-400 rounded-full"
+                  style={{
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)'
+                  }}
+                />
+              ))}
+              
+              {/* Ícone de sucesso animado */}
+              <div className="text-center mb-6">
+                <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-green-400 to-green-600 rounded-full mb-4 animate-pulse">
+                  <Check className="w-10 h-10 text-white animate-bounce" />
+                </div>
+                <div className="flex justify-center space-x-1">
+                  <Sparkles className="w-6 h-6 text-primary-400 animate-spin" />
+                  <Sparkles className="w-4 h-4 text-accent-400 animate-pulse" />
+                  <Sparkles className="w-6 h-6 text-primary-400 animate-spin" style={{animationDelay: '0.5s'}} />
+                </div>
+              </div>
+              
+              {/* Mensagem de sucesso */}
+              <div className="text-center">
+                <h3 className="text-2xl font-bold gradient-text mb-3">
+                  Email Enviado com Sucesso! 🚀
+                </h3>
+                <p className="text-gray-300 mb-2">
+                  Sua mensagem foi entregue com sucesso!
+                </p>
+                <p className="text-primary-400 font-medium">
+                  Entraremos em contato em breve! ⚡
+                </p>
+              </div>
+              
+              {/* Botão de fechar */}
+              <button
+                onClick={() => setShowSuccessPopup(false)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Partículas flutuantes ao fundo */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {[...Array(8)].map((_, i) => (
+            <div
+              key={i}
+              className="floating-particle absolute w-2 h-2 bg-primary-400/20 rounded-full"
+              style={{
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${i * 0.5}s`
+              }}
+            />
+          ))}
+        </div>
         
         {/* Título da seção */}
         <div className="text-center mb-16">
@@ -228,14 +368,30 @@ const Contact = () => {
             </h3>
 
             {submitStatus === 'success' && (
-              <div className="success-message opacity-0 bg-green-500/20 border border-green-500/30 text-green-400 p-4 rounded-lg mb-6">
-                ✓ Mensagem enviada com sucesso! Entrarei em contato em breve.
+              <div className="success-message opacity-0 bg-green-500/20 border border-green-500/30 text-green-400 p-4 rounded-lg mb-6 flex items-center">
+                <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mr-3">
+                  <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="font-semibold">Mensagem enviada com sucesso!</p>
+                  <p className="text-sm text-green-300">Seu cliente de email foi aberto. Respondo em até 24h!</p>
+                </div>
               </div>
             )}
 
             {submitStatus === 'error' && (
-              <div className="bg-red-500/20 border border-red-500/30 text-red-400 p-4 rounded-lg mb-6">
-                ✗ Erro ao enviar mensagem. Tente novamente.
+              <div className="bg-red-500/20 border border-red-500/30 text-red-400 p-4 rounded-lg mb-6 flex items-center">
+                <div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center mr-3">
+                  <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="font-semibold">Erro ao enviar mensagem</p>
+                  <p className="text-sm text-red-300">Por favor, envie diretamente para: <a href="mailto:felipeluvizotto08@gmail.com" className="underline hover:text-red-200">felipeluvizotto08@gmail.com</a></p>
+                </div>
               </div>
             )}
 
@@ -251,8 +407,10 @@ const Contact = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
+                  onFocus={() => setIsHovering('name')}
+                  onBlur={() => setIsHovering(null)}
                   required
-                  className="w-full px-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white placeholder-gray-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 transition-colors duration-300"
+                  className="w-full px-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white placeholder-gray-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 transition-all duration-300 hover:border-primary-400 hover:shadow-lg hover:shadow-primary-500/10 transform hover:scale-[1.02]"
                   placeholder="Seu nome completo"
                 />
               </div>
@@ -268,8 +426,10 @@ const Contact = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
+                  onFocus={() => setIsHovering('email')}
+                  onBlur={() => setIsHovering(null)}
                   required
-                  className="w-full px-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white placeholder-gray-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 transition-colors duration-300"
+                  className="w-full px-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white placeholder-gray-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 transition-all duration-300 hover:border-primary-400 hover:shadow-lg hover:shadow-primary-500/10 transform hover:scale-[1.02]"
                   placeholder="seu@email.com"
                 />
               </div>
@@ -318,17 +478,23 @@ const Contact = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed group"
+                  className="send-button w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed group relative overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                  onMouseEnter={() => setIsHovering('button')}
+                  onMouseLeave={() => setIsHovering(null)}
                 >
+                  {/* Efeito de onda ao hover */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary-600 to-accent-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                  
                   {isSubmitting ? (
-                    <div className="flex items-center justify-center">
+                    <div className="relative flex items-center justify-center">
                       <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                      Enviando...
+                      <span className="animate-pulse">Enviando mensagem...</span>
                     </div>
                   ) : (
-                    <div className="flex items-center justify-center">
-                      <Send className="w-5 h-5 mr-2 group-hover:translate-x-1 transition-transform duration-300" />
-                      Enviar Mensagem
+                    <div className="relative flex items-center justify-center">
+                      <Send className="w-5 h-5 mr-2 group-hover:transform group-hover:translate-x-1 transition-transform duration-300" />
+                      <span className="font-semibold">Enviar Mensagem</span>
+                      <Sparkles className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </div>
                   )}
                 </button>
