@@ -142,7 +142,7 @@ const Experience = () => {
 
   const experiences = [
     {
-      title: "Consultor Sistemas SRE",
+      title: "Consultor Sistemas",
       company: "Telefonica Vivo",
       period: "2025 - Presente",
       location: "Curitiba, PR",
@@ -159,7 +159,7 @@ const Experience = () => {
       achievements: "95% uptime alcançado"
     },
     {
-      title: "Analista JR",
+      title: "Analista Tecnico",
       company: "Intelly IT",
       period: "2015 - 2018",
       location: "Curitiba, PR",
