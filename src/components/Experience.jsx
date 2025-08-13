@@ -212,7 +212,7 @@ const Experience = () => {
               fontWeight: '700'
             }}
           >
-            {splitTitle('Experiência Profissional')}
+            {splitTitle('Experiência')}
           </h2>
           
           <div className="relative">
