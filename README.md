@@ -1,5 +1,4 @@
 # 🚀 Portfolio Felipe Luvizotto
-# 🚀 Portfolio Felipe Luvizotto
 
 Um portfólio moderno e interativo desenvolvido com as tecnologias mais atuais do mercado, demonstrando expertise em desenvolvimento Full Stack com foco em Java/Spring Boot e React.
 
