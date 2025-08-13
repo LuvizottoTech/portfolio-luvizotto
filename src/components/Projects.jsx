@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { ExternalLink, Github, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import anime from 'animejs'
 
 const Projects = () => {
@@ -74,20 +74,6 @@ const Projects = () => {
           }
         }, 100)
       }
-    }
-  }
-
-  const handleDemoClick = (demoUrl) => {
-    console.log('Demo button clicked:', demoUrl)
-    if (demoUrl) {
-      window.open(demoUrl, '_blank', 'noopener,noreferrer')
-    }
-  }
-
-  const handleCodeClick = (githubUrl) => {
-    console.log('Code button clicked:', githubUrl)
-    if (githubUrl) {
-      window.open(githubUrl, '_blank', 'noopener,noreferrer')
     }
   }
 
@@ -181,9 +167,9 @@ const Projects = () => {
         </div>
 
         <div className="slider-container opacity-0 relative max-w-7xl mx-auto">
-          <div className="projects-slider-wrapper bg-gray-100 shadow-2xl relative">
+          <div className="projects-slider-wrapper bg-gray-100 shadow-2xl relative overflow-hidden md:overflow-visible">
             
-            <div ref={slideRef} className="slider-track">
+            <div ref={slideRef} className="slider-track overflow-hidden md:overflow-visible">
               {projects.map((project, index) => (
                 <div
                   key={project.id}
@@ -194,7 +180,7 @@ const Projects = () => {
                     backgroundPosition: 'center'
                   }}
                 >
-                  <div className="project-content-overlay absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/30 opacity-0 transition-opacity duration-500">
+                  <div className="project-content-overlay absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/30 opacity-0 transition-opacity duration-500 md:opacity-0">
                     <div className="absolute inset-0 flex items-center">
                       <div className="text-left text-white p-4 sm:p-6 md:p-8 lg:p-12 max-w-full sm:max-w-2xl lg:max-w-3xl w-full">
                         <div className="mb-3 sm:mb-4">
@@ -216,7 +202,7 @@ const Projects = () => {
                         </p>
 
                         <div className="flex flex-wrap gap-1 sm:gap-2 mb-4 sm:mb-6">
-                          {project.technologies.slice(0, 4).map((tech, i) => (
+                          {project.technologies.slice(0, window.innerWidth < 768 ? 3 : 4).map((tech, i) => (
                             <span 
                               key={i} 
                               className="px-2 py-1 sm:px-3 sm:py-1 bg-white/10 backdrop-blur-sm text-white text-xs sm:text-sm rounded-full border border-white/20"
@@ -226,27 +212,6 @@ const Projects = () => {
                           ))}
                         </div>
                       </div>
-                    </div>
-
-                    <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-4 sm:left-6 md:left-8 lg:left-12 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 animate-fade-in-delay-3 z-20">
-                      {project.demoUrl && (
-                        <button
-                          type="button"
-                          onClick={() => handleDemoClick(project.demoUrl)}
-                          className="inline-flex items-center justify-center px-4 py-2 sm:px-6 sm:py-3 bg-white text-black rounded-xl font-semibold cursor-pointer border-none outline-none transition-all duration-300 transform hover:scale-105 hover:shadow-xl hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 active:scale-95 text-sm sm:text-base"
-                        >
-                          <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                          Ver Demo
-                        </button>
-                      )}
-                      <button
-                        type="button"
-                        onClick={() => handleCodeClick(project.githubUrl)}
-                        className="inline-flex items-center justify-center px-4 py-2 sm:px-6 sm:py-3 bg-white/10 backdrop-blur-sm text-white rounded-xl font-semibold cursor-pointer border border-white/20 outline-none transition-all duration-300 transform hover:scale-105 hover:shadow-xl hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500 active:scale-95 text-sm sm:text-base"
-                      >
-                        <Github className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                        Código
-                      </button>
                     </div>
                   </div>
 
@@ -282,14 +247,6 @@ const Projects = () => {
           <p className="text-gray-600 mb-6 text-lg">
             Interessado em colaborar ou conhecer mais projetos?
           </p>
-          <button
-            onClick={() => handleCodeClick("https://github.com/LuvizottoTech")}
-            className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
-          >
-            <Github className="w-5 h-5 mr-3" />
-            <span>Ver Todos no GitHub</span>
-            <ExternalLink className="w-4 h-4 ml-3" />
-          </button>
         </div>
       </div>
     </section>

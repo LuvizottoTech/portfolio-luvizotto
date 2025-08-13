@@ -216,8 +216,8 @@ const Contact = () => {
         
         {/* Popup de Sucesso Épico */}
         {showSuccessPopup && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-            <div className="relative bg-gradient-to-br from-dark-800 to-dark-900 p-8 rounded-2xl border border-primary-500/30 shadow-2xl max-w-md mx-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+            <div className="relative bg-gradient-to-br from-dark-800 to-dark-900 p-6 sm:p-8 rounded-2xl border border-primary-500/30 shadow-2xl max-w-sm sm:max-w-md mx-4 w-full">
               {/* Partículas de confete */}
               {[...Array(12)].map((_, i) => (
                 <div
@@ -232,26 +232,26 @@ const Contact = () => {
               ))}
               
               {/* Ícone de sucesso animado */}
-              <div className="text-center mb-6">
-                <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-green-400 to-green-600 rounded-full mb-4 animate-pulse">
-                  <Check className="w-10 h-10 text-white animate-bounce" />
+              <div className="text-center mb-4 sm:mb-6">
+                <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-green-400 to-green-600 rounded-full mb-3 sm:mb-4 animate-pulse">
+                  <Check className="w-8 h-8 sm:w-10 sm:h-10 text-white animate-bounce" />
                 </div>
                 <div className="flex justify-center space-x-1">
-                  <Sparkles className="w-6 h-6 text-primary-400 animate-spin" />
-                  <Sparkles className="w-4 h-4 text-accent-400 animate-pulse" />
-                  <Sparkles className="w-6 h-6 text-primary-400 animate-spin" style={{animationDelay: '0.5s'}} />
+                  <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-primary-400 animate-spin" />
+                  <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-accent-400 animate-pulse" />
+                  <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-primary-400 animate-spin" style={{animationDelay: '0.5s'}} />
                 </div>
               </div>
               
               {/* Mensagem de sucesso */}
               <div className="text-center">
-                <h3 className="text-2xl font-bold gradient-text mb-3">
+                <h3 className="text-xl sm:text-2xl font-bold gradient-text mb-2 sm:mb-3">
                   Email Enviado com Sucesso! 🚀
                 </h3>
-                <p className="text-gray-300 mb-2">
+                <p className="text-sm sm:text-base text-gray-300 mb-1 sm:mb-2">
                   Sua mensagem foi entregue com sucesso!
                 </p>
-                <p className="text-primary-400 font-medium">
+                <p className="text-sm sm:text-base text-primary-400 font-medium">
                   Entraremos em contato em breve! ⚡
                 </p>
               </div>
@@ -259,9 +259,9 @@ const Contact = () => {
               {/* Botão de fechar */}
               <button
                 onClick={() => setShowSuccessPopup(false)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+                className="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-400 hover:text-white transition-colors"
               >
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
             </div>
           </div>
@@ -283,30 +283,30 @@ const Contact = () => {
         </div>
         
         {/* Título da seção */}
-        <div className="text-center mb-16">
-          <h2 className="contact-title opacity-0 text-4xl md:text-5xl font-bold gradient-text mb-6">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="contact-title opacity-0 text-3xl sm:text-4xl md:text-5xl font-bold gradient-text mb-4 sm:mb-6">
             Vamos Trabalhar Juntos
           </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+          <p className="text-gray-400 text-base sm:text-lg max-w-2xl mx-auto px-4">
             Pronto para transformar suas ideias em realidade? Entre em contato e vamos discutir seu próximo projeto.
           </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary-500 to-accent-500 mx-auto mt-6"></div>
+          <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-primary-500 to-accent-500 mx-auto mt-4 sm:mt-6"></div>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16">
           
           {/* Informações de contato */}
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             <div className="contact-card opacity-0">
-              <h3 className="text-2xl font-bold text-white mb-6">Entre em Contato</h3>
-              <p className="text-gray-300 text-lg leading-relaxed mb-8">
+              <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-6">Entre em Contato</h3>
+              <p className="text-gray-300 text-base sm:text-lg leading-relaxed mb-6 sm:mb-8">
                 Estou sempre aberto a discutir novas oportunidades, projetos interessantes 
                 ou simplesmente trocar ideias sobre tecnologia. Não hesite em me contatar!
               </p>
             </div>
 
             {/* Cards de contato */}
-            <div className="grid gap-4">
+            <div className="grid gap-3 sm:gap-4">
               {contactInfo.map((info, index) => {
                 const Icon = info.icon
                 return (
@@ -315,20 +315,20 @@ const Contact = () => {
                     href={info.href}
                     target={info.href.startsWith('http') ? '_blank' : '_self'}
                     rel={info.href.startsWith('http') ? 'noopener noreferrer' : ''}
-                    className="contact-card opacity-0 glass rounded-xl p-6 group hover:border-primary-500/50 transition-all duration-300 hover:transform hover:scale-105"
+                    className="contact-card opacity-0 glass rounded-xl p-4 sm:p-6 group hover:border-primary-500/50 transition-all duration-300 hover:transform hover:scale-105 block"
                   >
-                    <div className="flex items-start space-x-4">
-                      <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-r from-primary-500 to-accent-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                        <Icon className="w-6 h-6 text-white" />
+                    <div className="flex items-start space-x-3 sm:space-x-4">
+                      <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-primary-500 to-accent-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                       </div>
-                      <div className="flex-1">
-                        <h4 className="text-lg font-semibold text-white group-hover:text-primary-400 transition-colors duration-300">
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-base sm:text-lg font-semibold text-white group-hover:text-primary-400 transition-colors duration-300">
                           {info.title}
                         </h4>
-                        <p className="text-primary-400 font-medium mb-1">
+                        <p className="text-primary-400 font-medium mb-1 text-sm sm:text-base break-all">
                           {info.value}
                         </p>
-                        <p className="text-gray-400 text-sm">
+                        <p className="text-gray-400 text-xs sm:text-sm">
                           {info.description}
                         </p>
                       </div>
@@ -339,9 +339,9 @@ const Contact = () => {
             </div>
 
             {/* Links sociais */}
-            <div className="contact-card opacity-0 glass rounded-xl p-6">
-              <h4 className="text-lg font-semibold text-white mb-4">Me siga nas redes:</h4>
-              <div className="flex space-x-4">
+            <div className="contact-card opacity-0 glass rounded-xl p-4 sm:p-6">
+              <h4 className="text-lg sm:text-xl font-semibold text-white mb-3 sm:mb-4">Me siga nas redes:</h4>
+              <div className="flex flex-wrap gap-3 sm:gap-4 justify-center sm:justify-start">
                 {socialLinks.map((social, index) => {
                   const Icon = social.icon
                   return (
@@ -350,10 +350,10 @@ const Contact = () => {
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`p-3 glass rounded-lg transition-all duration-300 hover:scale-110 ${social.color}`}
+                      className={`p-2.5 sm:p-3 glass rounded-lg transition-all duration-300 hover:scale-110 ${social.color}`}
                       title={social.name}
                     >
-                      <Icon className="w-6 h-6" />
+                      <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                     </a>
                   )
                 })}
@@ -362,8 +362,8 @@ const Contact = () => {
           </div>
 
           {/* Formulário de contato */}
-          <div className="glass rounded-2xl p-8">
-            <h3 className="form-group opacity-0 text-2xl font-bold text-white mb-6">
+          <div className="glass rounded-2xl p-4 sm:p-6 lg:p-8">
+            <h3 className="form-group opacity-0 text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">
               Envie uma Mensagem
             </h3>
 
@@ -444,8 +444,10 @@ const Contact = () => {
                   name="subject"
                   value={formData.subject}
                   onChange={handleInputChange}
+                  onFocus={() => setIsHovering('subject')}
+                  onBlur={() => setIsHovering(null)}
                   required
-                  className="w-full px-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 transition-colors duration-300"
+                  className="w-full px-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 transition-all duration-300 hover:border-primary-400 hover:shadow-lg hover:shadow-primary-500/10 transform hover:scale-[1.02]"
                 >
                   <option value="">Selecione um assunto</option>
                   <option value="freelance">Projeto Freelance</option>

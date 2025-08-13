@@ -3,6 +3,7 @@ import { ChevronDown, Download, Github, Linkedin, Mail, MousePointer } from 'luc
 import anime from 'animejs'
 import ThreeBackground from './ThreeBackground'
 import './audio-effects.css'
+import fotoImg from '/foto.jpeg'
 
 const Hero = () => {
   // ===== STATE E REFS =====
@@ -317,18 +318,18 @@ const Hero = () => {
         />
 
         <div className="container-custom relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             
             {/* Conteúdo Principal */}
-          <div className="text-center lg:text-left">
+          <div className="text-center lg:text-left px-4 sm:px-0">
             
             {/* Saudação */}
-            <div className="hero-subtitle opacity-0 mb-4">
-              <span className="text-primary-400 font-mono text-lg">Olá, eu sou</span>
+            <div className="hero-subtitle opacity-0 mb-3 sm:mb-4">
+              <span className="text-primary-400 font-mono text-base sm:text-lg">Olá, eu sou</span>
             </div>
 
             {/* Nome */}
-            <h1 className="hero-title text-5xl md:text-7xl font-bold leading-tight mb-6">
+            <h1 className="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-4 sm:mb-6">
               {'Felipe'.split('').map((char, index) => (
                 <span key={index} className="inline-block" style={{color: '#f6f4f2'}}>
                   {char}
@@ -436,7 +437,7 @@ const Hero = () => {
                 <div className="absolute inset-6 rounded-full overflow-hidden border-4 shadow-2xl"
                      style={{borderColor: 'rgba(216, 233, 232, 0.47)'}}>
                   <img
-                    src="/foto.jpeg"
+                    src={fotoImg}
                     alt="Felipe Luvizotto"
                     className="w-full h-full object-cover object-[center_20%] transition-transform duration-300 hover:scale-105"
                   />

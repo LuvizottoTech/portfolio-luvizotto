@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Portfolio Felipe Luvizotto</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Início</string>
+    <string name="nav_about">Sobre</string>
+    <string name="nav_skills">Habilidades</string>
+    <string name="nav_experience">Experiência</string>
+    <string name="nav_projects">Projetos</string>
+    <string name="nav_contact">Contato</string>
+
+    <!-- Home Screen -->
+    <string name="hello_im">Olá, eu sou</string>
+    <string name="name">Felipe Luvizotto</string>
+    <string name="title">Desenvolvedor Full Stack</string>
+    <string name="specializing_in">Especialista em</string>
+    <string name="view_cv">Ver Currículo</string>
+    <string name="get_in_touch">Entre em Contato</string>
+
+    <!-- About Screen -->
+    <string name="about_me">Sobre Mim</string>
+    <string name="years_experience">%d+ Anos de Experiência</string>
+    <string name="completed_projects">%d+ Projetos Concluídos</string>
+    <string name="companies_worked">%d+ Empresas</string>
+    <string name="about_description">Desenvolvedor apaixonado por criar soluções inovadoras com as tecnologias mais modernas do mercado. Especialista em desenvolvimento Full Stack com foco em Java/Spring Boot e React.</string>
+
+    <!-- Skills Screen -->
+    <string name="my_skills">Minhas Habilidades</string>
+    <string name="frontend">Frontend</string>
+    <string name="backend">Backend</string>
+    <string name="mobile">Mobile</string>
+    <string name="database">Banco de Dados</string>
+    <string name="devops">DevOps</string>
+
+    <!-- Experience Screen -->
+    <string name="my_experience">Minha Experiência</string>
+    <string name="present">Presente</string>
+
+    <!-- Projects Screen -->
+    <string name="my_projects">Meus Projetos</string>
+    <string name="view_all">Ver Todos</string>
+    <string name="view_project">Ver Projeto</string>
+    <string name="view_code">Ver Código</string>
+    <string name="technologies_used">Tecnologias Utilizadas</string>
+
+    <!-- Contact Screen -->
+    <string name="contact_me">Entre em Contato</string>
+    <string name="name_field">Nome</string>
+    <string name="email_field">Email</string>
+    <string name="message_field">Mensagem</string>
+    <string name="send_message">Enviar Mensagem</string>
+    <string name="email_sent">Email enviado com sucesso!</string>
+    <string name="email_error">Erro ao enviar email. Tente novamente.</string>
+
+    <!-- Error Messages -->
+    <string name="error_loading">Erro ao carregar dados. Tente novamente.</string>
+    <string name="retry">Tentar Novamente</string>
+    <string name="no_internet">Sem conexão com a internet</string>
+    <string name="required_field">Campo obrigatório</string>
+    <string name="invalid_email">Email inválido</string>
+</resources>
