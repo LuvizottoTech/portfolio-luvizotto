@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { Calendar, MapPin, Building, ExternalLink, Code, Zap, Award, TrendingUp } from 'lucide-react'
+import { Calendar, MapPin, Building, ExternalLink, Code, Zap, Award, TrendingUp, Download, CheckCircle } from 'lucide-react'
 import anime from 'animejs'
 
 const Experience = () => {
@@ -11,6 +11,8 @@ const Experience = () => {
   
   const titleRef = useRef(null)
   const particlesRef = useRef(null)
+  const [isDownloading, setIsDownloading] = useState(false)
+  const [downloadComplete, setDownloadComplete] = useState(false)
 
   useEffect(() => {
     if (inView) {
@@ -140,9 +142,61 @@ const Experience = () => {
     ))
   }
 
+  // Função para download do currículo
+  const downloadResume = async () => {
+    if (isDownloading) return // Evitar múltiplos cliques
+    
+    setIsDownloading(true)
+    
+    try {
+      // Verificar se o arquivo existe
+      const response = await fetch('/Curriculum Felipe Luvizotto.pdf', { method: 'HEAD' })
+      
+      if (!response.ok) {
+        throw new Error('Arquivo não encontrado')
+      }
+      
+      // Criar um link temporário para download
+      const link = document.createElement('a')
+      link.href = '/Curriculum Felipe Luvizotto.pdf'
+      link.download = 'Curriculum_Felipe_Luvizotto.pdf'
+      link.target = '_blank'
+      
+      // Adicionar ao DOM, clicar e remover
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      
+      // Feedback visual de sucesso
+      setDownloadComplete(true)
+      setTimeout(() => {
+        setDownloadComplete(false)
+        setIsDownloading(false)
+      }, 3000)
+      
+      console.log('Download do currículo iniciado')
+    } catch (error) {
+      console.error('Erro ao baixar currículo:', error)
+      
+      // Fallback: abrir em nova aba
+      try {
+        window.open('/Curriculum Felipe Luvizotto.pdf', '_blank')
+        setDownloadComplete(true)
+        setTimeout(() => {
+          setDownloadComplete(false)
+          setIsDownloading(false)
+        }, 3000)
+      } catch (fallbackError) {
+        console.error('Erro no fallback:', fallbackError)
+        alert('Erro ao baixar o currículo. Tente novamente.')
+        setIsDownloading(false)
+      }
+    }
+  }
+
   const experiences = [
     {
-      title: "Consultor Sistemas SRE",
+      title: "Consultor Sistemas",
       company: "Telefonica Vivo",
       period: "2025 - Presente",
       location: "Curitiba, PR",
@@ -159,7 +213,7 @@ const Experience = () => {
       achievements: "95% uptime alcançado"
     },
     {
-      title: "Analista JR",
+      title: "Analista Tecnico",
       company: "Intelly IT",
       period: "2015 - 2018",
       location: "Curitiba, PR",
@@ -212,7 +266,7 @@ const Experience = () => {
               fontWeight: '700'
             }}
           >
-            {splitTitle('Experiência Profissional')}
+            {splitTitle('Experiência')}
           </h2>
           
           <div className="relative">
@@ -382,17 +436,52 @@ const Experience = () => {
         {/* Call-to-action futurístico */}
         <div className="text-center mt-20 relative">
           <div className="inline-block relative">
-            <button className="group px-8 py-4 bg-gradient-to-r from-primary-600 to-accent-600 text-white rounded-2xl font-semibold transition-all duration-500 transform hover:scale-105 hover:shadow-2xl hover:shadow-primary-500/25 border border-primary-500/50">
+            <button 
+              onClick={downloadResume}
+              disabled={isDownloading}
+              className={`group px-8 py-4 bg-gradient-to-r ${
+                downloadComplete 
+                  ? 'from-green-600 to-green-500' 
+                  : 'from-primary-600 to-accent-600'
+              } text-white rounded-2xl font-semibold transition-all duration-500 transform hover:scale-105 hover:shadow-2xl hover:shadow-primary-500/25 border border-primary-500/50 ${
+                isDownloading ? 'opacity-80 cursor-not-allowed' : ''
+              }`}
+            >
               <span className="relative z-10 flex items-center">
-                <ExternalLink className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-300" />
-                Baixar Currículo Completo
-                <TrendingUp className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+                {downloadComplete ? (
+                  <>
+                    <CheckCircle className="w-5 h-5 mr-2 text-green-200" />
+                    Download Completo!
+                    <CheckCircle className="w-5 h-5 ml-2 text-green-200" />
+                  </>
+                ) : isDownloading ? (
+                  <>
+                    <Download className="w-5 h-5 mr-2 animate-bounce" />
+                    Baixando...
+                    <div className="w-5 h-5 ml-2 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  </>
+                ) : (
+                  <>
+                    <Download className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-300" />
+                    Baixar Currículo Completo
+                    <TrendingUp className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+                  </>
+                )}
               </span>
               
               {/* Efeito de ondas */}
-              <div className="absolute inset-0 bg-gradient-to-r from-primary-400/50 to-accent-400/50 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+              <div className={`absolute inset-0 bg-gradient-to-r ${
+                downloadComplete 
+                  ? 'from-green-400/50 to-green-300/50' 
+                  : 'from-primary-400/50 to-accent-400/50'
+              } rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10`}></div>
             </button>
           </div>
+          
+          {/* Mensagem de ajuda */}
+          <p className="text-gray-400 text-sm mt-4 opacity-80">
+            Arquivo PDF • Tamanho: ~2MB • Última atualização: {new Date().getFullYear()}
+          </p>
         </div>
       </div>
     </section>
