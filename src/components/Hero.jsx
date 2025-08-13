@@ -3,7 +3,6 @@ import { ChevronDown, Download, Github, Linkedin, Mail, MousePointer } from 'luc
 import anime from 'animejs'
 import ThreeBackground from './ThreeBackground'
 import './audio-effects.css'
-import fotoImg from '/foto.jpeg'
 
 const Hero = () => {
   // ===== STATE E REFS =====
@@ -437,7 +436,7 @@ const Hero = () => {
                 <div className="absolute inset-6 rounded-full overflow-hidden border-4 shadow-2xl"
                      style={{borderColor: 'rgba(216, 233, 232, 0.47)'}}>
                   <img
-                    src={fotoImg}
+                    src="/foto.jpeg"
                     alt="Felipe Luvizotto"
                     className="w-full h-full object-cover object-[center_20%] transition-transform duration-300 hover:scale-105"
                   />
