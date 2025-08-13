@@ -13,7 +13,6 @@ const Hero = () => {
   // Refs para controle de áudio
   const audioContextRef = useRef(null)
   const windSoundRef = useRef(null)
-  const keyboardAudioRef = useRef(null)
   const scrollTimeoutRef = useRef(null)
   const isWindPlayingRef = useRef(false)
 
@@ -21,7 +20,6 @@ const Hero = () => {
   const WIND_DELAY = 2000
   const TYPEWRITER_DELAY = 3000
   const WIND_VOLUME = 0.03
-  const TYPING_VOLUME = 0.03
   const SCROLL_DEBOUNCE_DELAY = 100
 
   // ===== FUNÇÕES DE ÁUDIO =====
@@ -99,37 +97,6 @@ const Hero = () => {
         isWindPlayingRef.current = false
         windSoundRef.current = null
       }
-    }
-  }
-
-  const playTypingSound = () => {
-    try {
-      if (!audioContextRef.current) {
-        audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)()
-      }
-      
-      const audioContext = audioContextRef.current
-      const oscillator = audioContext.createOscillator()
-      const gainNode = audioContext.createGain()
-      
-      // Configurar som de tecla com frequência variável
-      oscillator.type = 'square'
-      oscillator.frequency.value = 10 + Math.random() * 280
-      
-      // Envelope ADSR para som natural
-      const now = audioContext.currentTime
-      gainNode.gain.setValueAtTime(0, now)
-      gainNode.gain.linearRampToValueAtTime(TYPING_VOLUME, now + 0.01)
-      gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.08)
-      
-      oscillator.connect(gainNode)
-      gainNode.connect(audioContext.destination)
-      
-      oscillator.start(now)
-      oscillator.stop(now + 0.08)
-      
-    } catch (error) {
-      console.log('Erro ao reproduzir som de digitação:', error)
     }
   }
 
@@ -223,10 +190,6 @@ const Hero = () => {
         const currentTech = technologies[techIndex]
         if (charIndex < currentTech.text.length) {
           const currentChar = currentTech.text[charIndex]
-          
-          if (currentChar !== ' ' && currentChar !== '|') {
-            playTypingSound()
-          }
           
           let html = ""
           for (let i = 0; i <= techIndex; i++) {
