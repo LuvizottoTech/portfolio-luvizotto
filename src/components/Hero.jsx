@@ -14,21 +14,35 @@ const Hero = () => {
   const audioContextRef = useRef(null)
   const windSoundRef = useRef(null)
   const keyboardAudioRef = useRef(null)
+  const scrollTimeoutRef = useRef(null)
+  const isWindPlayingRef = useRef(false)
 
   // ===== CONFIGURAÇÕES =====
   const WIND_DELAY = 2000
   const TYPEWRITER_DELAY = 3000
   const WIND_VOLUME = 0.03
   const TYPING_VOLUME = 0.03
+  const SCROLL_DEBOUNCE_DELAY = 100
 
   // ===== FUNÇÕES DE ÁUDIO =====
   const createWindSound = () => {
+    // Evitar criar múltiplos sons se já estiver tocando
+    if (isWindPlayingRef.current || windSoundRef.current) {
+      return
+    }
+
     try {
       if (!audioContextRef.current) {
         audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)()
       }
       
       const audioContext = audioContextRef.current
+      
+      // Verificar se o contexto de áudio está suspenso
+      if (audioContext.state === 'suspended') {
+        audioContext.resume()
+      }
+      
       const bufferSize = audioContext.sampleRate * 2
       const noiseBuffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate)
       const output = noiseBuffer.getChannelData(0)
@@ -58,21 +72,32 @@ const Hero = () => {
       
       whiteNoise.start()
       windSoundRef.current = whiteNoise
+      isWindPlayingRef.current = true
+      
+      // Adicionar listener para quando o som terminar
+      whiteNoise.onended = () => {
+        isWindPlayingRef.current = false
+        windSoundRef.current = null
+      }
       
       console.log('Som de vento iniciado')
     } catch (error) {
       console.log('Erro ao criar som de vento:', error)
+      isWindPlayingRef.current = false
     }
   }
 
   const stopWindSound = () => {
-    if (windSoundRef.current) {
+    if (windSoundRef.current && isWindPlayingRef.current) {
       try {
         windSoundRef.current.stop()
         windSoundRef.current = null
+        isWindPlayingRef.current = false
         console.log('Som de vento parado')
       } catch (error) {
         console.log('Erro ao parar som de vento:', error)
+        isWindPlayingRef.current = false
+        windSoundRef.current = null
       }
     }
   }
@@ -232,17 +257,27 @@ const Hero = () => {
 
   // ===== HANDLERS =====
   const handleScroll = () => {
-    const heroSection = document.getElementById('home')
-    if (heroSection) {
-      const rect = heroSection.getBoundingClientRect()
-      const isHeroVisible = rect.bottom > 0 && rect.top < window.innerHeight
-      
-      if (!isHeroVisible && windSoundRef.current) {
-        stopWindSound()
-      } else if (isHeroVisible && !windSoundRef.current) {
-        createWindSound()
-      }
+    // Limpar timeout anterior se existir
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current)
     }
+
+    // Debounce para evitar múltiplas chamadas seguidas
+    scrollTimeoutRef.current = setTimeout(() => {
+      const heroSection = document.getElementById('home')
+      if (heroSection) {
+        const rect = heroSection.getBoundingClientRect()
+        // Considera visível se pelo menos 20% da seção está na tela
+        const visibilityThreshold = window.innerHeight * 0.2
+        const isHeroVisible = rect.bottom > visibilityThreshold && rect.top < (window.innerHeight - visibilityThreshold)
+        
+        if (!isHeroVisible && isWindPlayingRef.current) {
+          stopWindSound()
+        } else if (isHeroVisible && !isWindPlayingRef.current) {
+          createWindSound()
+        }
+      }
+    }, SCROLL_DEBOUNCE_DELAY)
   }
 
   // ===== EFFECT PRINCIPAL =====
@@ -263,6 +298,9 @@ const Hero = () => {
     // Cleanup
     return () => {
       clearTimeout(windTimer)
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current)
+      }
       window.removeEventListener('scroll', handleScroll)
       stopWindSound()
       if (audioContextRef.current) {

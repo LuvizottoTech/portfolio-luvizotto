@@ -1,17 +1,31 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 const ScrollProgress = () => {
   const [progress, setProgress] = useState(0)
+  const timeoutRef = useRef(null)
 
   useEffect(() => {
     const handleScroll = () => {
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight
-      const currentProgress = (window.scrollY / totalHeight) * 100
-      setProgress(currentProgress)
+      // Debounce para melhor performance
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+      
+      timeoutRef.current = setTimeout(() => {
+        const totalHeight = document.documentElement.scrollHeight - window.innerHeight
+        const currentProgress = (window.scrollY / totalHeight) * 100
+        setProgress(Math.min(100, Math.max(0, currentProgress)))
+      }, 10) // Delay menor para responsividade visual
     }
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+      window.removeEventListener('scroll', handleScroll)
+    }
   }, [])
 
   return (
